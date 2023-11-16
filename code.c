@@ -221,6 +221,46 @@ void view_post()
     }
 }
 
+// Function to delete a post
+void delete_post()
+{
+    if (user_index == -1)
+    {
+        printf("Please log in first!\n");
+        return;
+    }
+
+    printf("Your Posts:\n");
+    for (int i = post_count - 1; i >= 0; i--)
+    {
+        if (posts[i].authorId == user_index)
+        {
+            printf("%d. %s\n", posts[i].id, posts[i].content);
+        }
+    }
+
+    int post_id;
+    printf("Enter the ID of the post you want to delete: ");
+    scanf("%d", &post_id);
+
+    for (int i = post_count - 1; i >= 0; i--)
+    {
+        if (posts[i].id == post_id && posts[i].authorId == user_index)
+        {
+            // Delete the post by shifting remaining posts
+            for (int j = i; j < post_count - 1; j++)
+            {
+                posts[j] = posts[j + 1];
+            }
+            post_count--;
+            printf("Post deleted successfully!\n");
+            return;
+        }
+    }
+
+    printf("Invalid post ID or you don't have permission to delete this post.\n");
+}
+
 int main()
 {
     int choice;
@@ -230,7 +270,7 @@ int main()
         printf("===========================================\n");
         printf("\tSocial Media Networking\n");
         printf("===========================================\n");
-        printf("1. Register\n2. Login\n3. Add Friend\n4. Post Update\n5. View Post\n6. View Friends\n7. Exit\n");
+        printf("1. Register\n2. Login\n3. Add Friend\n4. Update Post\n5. View Post\n6. View Friends\n7. Delet post\n8. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -255,6 +295,9 @@ int main()
             view_friends();
             break;
         case 7:
+            delete_post();
+            break;
+        case 8:
             return 0;
         default:
             printf("Invalid choice. Try again.\n");
