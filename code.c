@@ -173,6 +173,45 @@ void view_friends()
     }
 }
 
+//Function to edit profile 
+void edit_profile()
+{
+    if (user_index == -1)
+    {
+        printf("Please log in first!\n");
+        return;
+    }
+
+    User *current_user = &social_network[user_index].user;
+
+    printf("Edit profile for %s:\n", current_user->username);
+    printf("1. Edit username\n");
+    printf("2. Edit password\n");
+    printf("3. Back\n");
+    printf("Enter your choice: ");
+
+    int edit_choice;
+    scanf("%d", &edit_choice);
+
+    switch (edit_choice)
+    {
+    case 1:
+        printf("Enter new username: ");
+        scanf("%s", current_user->username);
+        printf("Username updated successfully!\n");
+        break;
+    case 2:
+        printf("Enter new password: ");
+        scanf("%s", current_user->password);
+        printf("Password updated successfully!\n");
+        break;
+    case 3:
+        return;
+    default:
+        printf("Invalid choice. Try again.\n");
+    }
+}
+
 // Function to post updates
 void add_post()
 {
@@ -261,6 +300,20 @@ void delete_post()
     printf("Invalid post ID or you don't have permission to delete this post.\n");
 }
 
+// Function to logout user
+void logout()
+{
+    if (user_index == -1)
+    {
+        printf("No user logged in.\n");
+    }
+    else
+    {
+        printf("Logging out %s.\n", social_network[user_index].user.username);
+        user_index = -1;
+    }
+}
+
 int main()
 {
     int choice;
@@ -270,7 +323,7 @@ int main()
         printf("===========================================\n");
         printf("\tSocial Media Networking\n");
         printf("===========================================\n");
-        printf("1. Register\n2. Login\n3. Add Friend\n4. Update Post\n5. View Post\n6. View Friends\n7. Delet post\n8. Exit\n");
+        printf("1. Register\n2. Login\n3. Add Friend\n4. Edit profile\n5. Post Update\n6. View Post\n7. View Friends\n8. Delete post\n9. Logout\n10. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -289,15 +342,21 @@ int main()
             add_post();
             break;
         case 5:
-            view_post();
+            edit_profile();
             break;
         case 6:
-            view_friends();
+            view_post();
             break;
         case 7:
-            delete_post();
+            view_friends();
             break;
         case 8:
+            delete_post();
+            break;
+        case 9:
+            logout();
+            break;
+        case 10:
             return 0;
         default:
             printf("Invalid choice. Try again.\n");
@@ -305,3 +364,4 @@ int main()
     }
     return 0;
 }
+
